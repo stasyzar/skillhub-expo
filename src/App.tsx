@@ -1,15 +1,23 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View, useColorScheme } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { ENV } from '@config/env';
-import { FONTS } from '@theme/fonts';
+import { FONTS, initTheme } from '@theme/index';
 import SkillLogo from '@assets/icons/skill-logo.svg';
 
 SplashScreen.preventAutoHideAsync();
+initTheme();
 
 export default function App() {
+
+  const colorScheme = useColorScheme();
+
+  useMemo(() => {
+    initTheme(colorScheme);
+  }, [colorScheme]);
 
   const [fontsLoaded, fontError] = useFonts({
     [FONTS.regular]: require('./assets/fonts/Montserrat-Regular.ttf'),
@@ -28,7 +36,7 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container} onLayout={onLayoutRootView}>
+    <View key={colorScheme ?? 'light'} style={styles.container} onLayout={onLayoutRootView}>
       <Text style={styles.title}>SkillHub Foundation</Text>
       <Text style={styles.subtitle}>API: {ENV.API_URL}</Text>
       <Text style={styles.regular}>ENV: {ENV.APP_ENV}</Text>
@@ -36,15 +44,15 @@ export default function App() {
         <SkillLogo width={48} height={48} fill="#6C63FF" />
         <SkillLogo width={48} height={48} fill="#FF6584" />
       </View>
-      <StatusBar style="auto" />
+      <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '$background',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -52,17 +60,20 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: FONTS.bold,
     fontSize: 24,
+    color: '$text',
     marginBottom: 8,
   },
 
   subtitle: {
     fontFamily: FONTS.medium,
     fontSize: 16,
+    color: '$textSecondary',
     marginBottom: 4,
   },
 
   regular: {
     fontFamily: FONTS.regular,
     fontSize: 14,
+    color: '$textSecondary',
   },
 });
