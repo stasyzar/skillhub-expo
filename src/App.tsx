@@ -5,6 +5,7 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { ENV } from '@config/env';
 import { FONTS } from '@theme/fonts';
+import SkillLogo from '@assets/icons/skill-logo.svg';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -31,6 +32,10 @@ export default function App() {
       <Text style={styles.title}>SkillHub Foundation</Text>
       <Text style={styles.subtitle}>API: {ENV.API_URL}</Text>
       <Text style={styles.regular}>ENV: {ENV.APP_ENV}</Text>
+      <View style={{ flexDirection: 'row', gap: 16, marginBottom: 16 }}>
+        <SkillLogo width={48} height={48} fill="#6C63FF" />
+        <SkillLogo width={48} height={48} fill="#FF6584" />
+      </View>
       <StatusBar style="auto" />
     </View>
   );
