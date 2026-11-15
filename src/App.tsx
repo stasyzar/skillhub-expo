@@ -9,6 +9,8 @@ import { FONTS, initTheme } from '@theme/index';
 import SkillLogo from '@assets/icons/skill-logo.svg';
 import { useTranslation } from 'react-i18next';
 import '@localization/index';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Navigation from '@navigation/index';
 
 SplashScreen.preventAutoHideAsync();
 initTheme();
@@ -45,65 +47,20 @@ export default function App() {
   }
 
   return (
-    <View key={colorScheme ?? 'light'} style={styles.container} onLayout={onLayoutRootView}>
-      <Text style={styles.title}>{t('home.title')}</Text>
-      <Text style={styles.subtitle}>{t('home.subtitle', { url: ENV.API_URL })}</Text>
-      <Text style={styles.regular}>{t('common.currentEnv', { env: ENV.APP_ENV })}</Text>
-
-      <View style={{ flexDirection: 'row', gap: 16, marginVertical: 16 }}>
-        <SkillLogo width={48} height={48} fill="#6C63FF" />
-        <SkillLogo width={48} height={48} fill="#FF6584" />
+    <SafeAreaProvider>
+      <View
+        key={colorScheme ?? 'light'}
+        style={styles.root}
+        onLayout={onLayoutRootView}>
+        <Navigation />
+        <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
       </View>
-
-      <Pressable style={styles.button} onPress={toggleLanguage}>
-        <Text style={styles.buttonText}>
-          {t('common.switchLanguage')} ({i18n.language.toUpperCase()})
-        </Text>
-      </Pressable>
-
-      <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
-    </View>
+    </SafeAreaProvider>
   );
 }
 
 const styles = EStyleSheet.create({
-  container: {
+  root: {
     flex: 1,
-    backgroundColor: '$background',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  title: {
-    fontFamily: FONTS.bold,
-    fontSize: 24,
-    color: '$text',
-    marginBottom: 8,
-  },
-
-  subtitle: {
-    fontFamily: FONTS.medium,
-    fontSize: 16,
-    color: '$textSecondary',
-    marginBottom: 4,
-  },
-
-  regular: {
-    fontFamily: FONTS.regular,
-    fontSize: 14,
-    color: '$textSecondary',
-  },
-
-  button: {
-    backgroundColor: '$primary',
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 10,
-    marginTop: 8,
-  },
-  buttonText: {
-    fontFamily: FONTS.medium,
-    fontSize: 15,
-    color: '#FFFFFF',
-  },
+  }
 });
