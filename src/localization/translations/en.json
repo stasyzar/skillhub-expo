@@ -1,0 +1,11 @@
+{
+  "common": {
+    "appName": "SkillHub",
+    "switchLanguage": "Switch language",
+    "currentEnv": "Environment: {{env}}"
+  },
+  "home": {
+    "title": "Welcome to SkillHub",
+    "subtitle": "API connected: {{url}}"
+  }
+}

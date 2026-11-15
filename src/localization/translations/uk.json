@@ -1,0 +1,11 @@
+{
+  "common": {
+    "appName": "SkillHub",
+    "switchLanguage": "Змінити мову",
+    "currentEnv": "Середовище: {{env}}"
+  },
+  "home": {
+    "title": "Ласкаво просимо до SkillHub",
+    "subtitle": "API підключено: {{url}}"
+  }
+}

@@ -1,17 +1,26 @@
 import { useCallback, useMemo } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Text, View, useColorScheme } from 'react-native';
+import { Pressable, Text, View, useColorScheme } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { ENV } from '@config/env';
 import { FONTS, initTheme } from '@theme/index';
 import SkillLogo from '@assets/icons/skill-logo.svg';
+import { useTranslation } from 'react-i18next';
+import '@localization/index';
 
 SplashScreen.preventAutoHideAsync();
 initTheme();
 
 export default function App() {
+
+  const { t, i18n } = useTranslation();
+
+  const toggleLanguage = () => {
+    const nextLang = i18n.language === 'uk' ? 'en' : 'uk';
+    i18n.changeLanguage(nextLang);
+  };
 
   const colorScheme = useColorScheme();
 
@@ -37,13 +46,21 @@ export default function App() {
 
   return (
     <View key={colorScheme ?? 'light'} style={styles.container} onLayout={onLayoutRootView}>
-      <Text style={styles.title}>SkillHub Foundation</Text>
-      <Text style={styles.subtitle}>API: {ENV.API_URL}</Text>
-      <Text style={styles.regular}>ENV: {ENV.APP_ENV}</Text>
-      <View style={{ flexDirection: 'row', gap: 16, marginBottom: 16 }}>
+      <Text style={styles.title}>{t('home.title')}</Text>
+      <Text style={styles.subtitle}>{t('home.subtitle', { url: ENV.API_URL })}</Text>
+      <Text style={styles.regular}>{t('common.currentEnv', { env: ENV.APP_ENV })}</Text>
+
+      <View style={{ flexDirection: 'row', gap: 16, marginVertical: 16 }}>
         <SkillLogo width={48} height={48} fill="#6C63FF" />
         <SkillLogo width={48} height={48} fill="#FF6584" />
       </View>
+
+      <Pressable style={styles.button} onPress={toggleLanguage}>
+        <Text style={styles.buttonText}>
+          {t('common.switchLanguage')} ({i18n.language.toUpperCase()})
+        </Text>
+      </Pressable>
+
       <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
     </View>
   );
@@ -75,5 +92,18 @@ const styles = EStyleSheet.create({
     fontFamily: FONTS.regular,
     fontSize: 14,
     color: '$textSecondary',
+  },
+
+  button: {
+    backgroundColor: '$primary',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+    marginTop: 8,
+  },
+  buttonText: {
+    fontFamily: FONTS.medium,
+    fontSize: 15,
+    color: '#FFFFFF',
   },
 });
