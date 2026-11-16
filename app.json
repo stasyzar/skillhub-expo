@@ -35,7 +35,8 @@
           "resizeMode": "contain"
         }
       ],
-      "expo-localization"
+      "expo-localization",
+      "expo-secure-store"
     ]
   }
 }
