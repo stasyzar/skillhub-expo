@@ -3,17 +3,18 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { CoursesScreen } from "./screens/CoursesScreen";
 import { CourseDetailsScreen } from "./screens/CourseDetailsScreen";
+import { MainTabsNavigator } from "./MainTabsNavigator";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const Navigation = () => {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="Courses">
+            <Stack.Navigator initialRouteName="MainTabs">
                 <Stack.Screen
-                    name="Courses"
-                    component={CoursesScreen}
-                    options={{ title: 'SkillHub Courses' }}
+                    name="MainTabs"
+                    component={MainTabsNavigator}
+                    options={{ headerShown: false }}
                 />
                 <Stack.Screen
                     name="CourseDetails"

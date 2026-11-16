@@ -1,8 +1,8 @@
 import { Pressable, Text, View } from "react-native";
 import styles from './styles';
-import { RootStackScreenProps } from "@/interfaces/types";
+import { MainTabScreenProps } from "@/interfaces/types";
 
-export function CoursesScreen({navigation}: RootStackScreenProps<'Courses'>) {
+export function CoursesScreen({navigation}: MainTabScreenProps<'Courses'>) {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Courses Screen</Text>
