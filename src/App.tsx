@@ -4,13 +4,14 @@ import { Pressable, Text, View, useColorScheme } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import { ENV } from '@config/env';
 import { FONTS, initTheme } from '@theme/index';
-import SkillLogo from '@assets/icons/skill-logo.svg';
 import { useTranslation } from 'react-i18next';
 import '@localization/index';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Navigation from '@navigation/index';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistor, store } from '@store/index';
 
 SplashScreen.preventAutoHideAsync();
 initTheme();
@@ -47,15 +48,20 @@ export default function App() {
   }
 
   return (
-    <SafeAreaProvider>
-      <View
-        key={colorScheme ?? 'light'}
-        style={styles.root}
-        onLayout={onLayoutRootView}>
-        <Navigation />
-        <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
-      </View>
-    </SafeAreaProvider>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <SafeAreaProvider>
+          <View
+            key={colorScheme ?? 'light'}
+            style={styles.root}
+            onLayout={onLayoutRootView}>
+            <Navigation />
+            <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
+          </View>
+        </SafeAreaProvider>
+      </PersistGate>
+    </Provider>
+
   );
 }
 

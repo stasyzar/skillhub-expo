@@ -1,16 +1,17 @@
-import { RootStackParamList } from "@/interfaces/types";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { CourseDetailsScreen } from "./screens/CourseDetailsScreen";
-import { MainTabsNavigator } from "./MainTabsNavigator";
-import { LoginScreen } from "./screens/LoginScreen";
-import { useState } from "react";
-import { linking } from "./linking";
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { CourseDetailsScreen } from '@navigation/screens/CourseDetailsScreen';
+import { LoginScreen } from '@navigation/screens/LoginScreen';
+import type { RootStackParamList } from '@interfaces/types';
+import { useAppSelector } from '@store/hooks';
+import { MainTabsNavigator } from './MainTabsNavigator';
+import { linking } from './linking';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const Navigation = () => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
+
     return (
         <NavigationContainer linking={linking}>
             <Stack.Navigator>
@@ -28,11 +29,12 @@ const Navigation = () => {
                         />
                     </>
                 ) : (
-                    <Stack.Screen name="Login" options={{ headerShown: false }}>
-                        {() => <LoginScreen onLogin={() => setIsAuthenticated(true)} />}
-                    </Stack.Screen>
+                    <Stack.Screen
+                        name="Login"
+                        component={LoginScreen}
+                        options={{ headerShown: false }}
+                    />
                 )}
-
             </Stack.Navigator>
         </NavigationContainer>
     );

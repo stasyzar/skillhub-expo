@@ -20,4 +20,16 @@ export const styles = EStyleSheet.create({
         fontSize: 16,
         color: '$textSecondary',
     },
+    button: {
+        backgroundColor: '#EF4444',
+        paddingVertical: 12,
+        paddingHorizontal: 24,
+        borderRadius: 10,
+        marginTop: 20,
+    },
+    buttonText: {
+        fontFamily: FONTS.medium,
+        fontSize: 15,
+        color: '#FFFFFF',
+    },
 });
