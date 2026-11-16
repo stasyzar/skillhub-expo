@@ -11,9 +11,13 @@ import {
   persistStore,
 } from 'redux-persist';
 import authReducer from './slices/authSlice';
+import coursesReducer from './slices/coursesSlice';
+import { createSagaMiddleware } from 'redux-saga';
+import { coursesSaga } from './sagas/coursesSaga';
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  courses: coursesReducer,
 });
 
 const persistConfig = {
@@ -24,6 +28,8 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
+const sagaMiddleware = createSagaMiddleware();
+
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
@@ -31,8 +37,10 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }),
+    }).concat(sagaMiddleware),
 });
+
+sagaMiddleware.run(coursesSaga);
 
 export const persistor = persistStore(store);
 
