@@ -11,6 +11,7 @@ export type MainTabParamList = {
 }
 
 export type RootStackParamList = {
+  Login: undefined;
   MainTabs: NavigatorScreenParams<MainTabParamList>;
   CourseDetails: { courseId: string };
 };
@@ -23,3 +24,4 @@ export type MainTabScreenProps<T extends keyof MainTabParamList> =
     BottomTabScreenProps<MainTabParamList, T>,
     RootStackScreenProps<keyof RootStackParamList>
   >;
+
