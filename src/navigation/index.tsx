@@ -5,13 +5,14 @@ import { CourseDetailsScreen } from "./screens/CourseDetailsScreen";
 import { MainTabsNavigator } from "./MainTabsNavigator";
 import { LoginScreen } from "./screens/LoginScreen";
 import { useState } from "react";
+import { linking } from "./linking";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const Navigation = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     return (
-        <NavigationContainer>
+        <NavigationContainer linking={linking}>
             <Stack.Navigator>
                 {isAuthenticated ? (
                     <>
